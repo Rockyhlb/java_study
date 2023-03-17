@@ -32,17 +32,18 @@ public class PersonalVehicles {
 //        System.out.printf("id:%s,brand:%s,distance:%d",id,brand,distance);
 //    }
 //
-    private int age = 100;
+    private int age = 122;
     private char sex = '男';
 
     int getAge()
     {
+        System.out.printf("%d\n",age);
         return this.age;
     }
 
     void setAge()
     {
-        if (age >130 || age < 0)
+        if (age >120 || age < 0)
         {
             System.out.println("输入不合法，重置为18");
             this.age = 18;
