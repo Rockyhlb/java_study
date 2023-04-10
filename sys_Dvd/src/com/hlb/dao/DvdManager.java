@@ -1,4 +1,7 @@
-package com.hlb;
+package com.hlb.dao;
+
+import com.hlb.entity.Dvd;
+import com.hlb.enums.DvdStatus;
 
 import java.text.ParseException;
 import java.util.Date;
@@ -11,207 +14,44 @@ public class DvdManager {
     Scanner input = new Scanner(System.in);
     SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm");
 
-    public void  menu() throws ParseException {
-        init();
-        do{
-            Scanner input = new Scanner(System.in);
-            System.out.println();
-            System.out.print("***** DVD出租管理信息系统 *****\n");
-            System.out.print("*****  1       显示      *****\n");
-            System.out.print("*****  2       上架      *****\n");
-            System.out.print("*****  3       下架      *****\n");
-            System.out.print("*****  4       出租      *****\n");
-            System.out.print("*****  5       归还      *****\n");
-            System.out.print("*****  6       查找      *****\n");
-            System.out.print("*****  7       排序      *****\n");
-            System.out.print("*****  8       退出      *****\n");
-            System.out.print("******************************\n");
-            System.out.print("请输入选项:>>");
-            int choice = input.nextInt();
-
-            switch (choice)
-            {
-                case 1:
-                {
-                    print_dvdArray(dvds);
-                    continue;
-                }
-                case 2:
-                {
-                    upline(dvds);
-                    continue;
-                }
-                case 3:
-                {
-                    print_dvdArray(dvds);
-                    downline(dvds);
-                    continue;
-                }
-                case 4:
-                {
-                    print_dvdArray(dvds);
-                    borrowDvd(dvds);
-                    continue;
-                }
-                case 5:
-                {
-                    print_dvdArray(dvds);
-                    returnDvd(dvds);
-                    continue;
-                }
-                case 6:
-                {
-                    search_menu();
-                    input = new Scanner(System.in);
-                    System.out.print("请输入查找方式:>>");
-
-                    int choice_sea = input.nextInt();
-                    switch (choice_sea)
-                    {
-                        case 1:
-                            searchById(dvds);
-                            break;
-                        case 2:
-                            searchByName(dvds);
-                            break;
-                        case 3:
-                            input = new Scanner(System.in);
-                            System.out.print("请输入目标影片的状态( 0: '在店'，1: '出租',2: '坏碟',3: '预定'):>");
-
-                            int search_flag = input.nextInt();
-                            switch (search_flag)
-                            {
-                                case 0:
-                                    search(DvdStatus.INSTORE);
-                                    break;
-                                case 1:
-                                    search(DvdStatus.OUTSTORE);
-                                    break;
-                                case 2:
-                                    search(DvdStatus.BADDISK);
-                                    break;
-                                case 3:
-                                    search(DvdStatus.SUBSCRIPT);
-                                    break;
-                                default:
-                                    System.out.println("输入非法！");
-                                    break;
-                            }
-                            break;
-                        case 4:
-                            searchByFire(dvds);
-                            break;
-                        default:
-                            System.out.print("请输入有效选项:>>");
-                            continue;
-                    }
-
-                    continue;
-                }
-                case 7:
-                {
-                    sort_menu();
-                    input = new Scanner(System.in);
-
-                    System.out.print("请输入排序方式:>>");
-                    int choice_sor = input.nextInt();
-
-                    switch (choice_sor)
-                    {
-                        case 1:
-                            sortById();
-                            print_dvdArray(dvds);
-                            break;
-                        case 2:
-                            sortByName();
-                            print_dvdArray(dvds);
-                            break;
-                        case 3:
-                            sortByFire();
-                            print_dvdArray(dvds);
-                            break;
-                        case 4:
-                            sortByProfit();
-                            print_dvdArray(dvds);
-                            break;
-                        default:
-                            System.out.print("请输入有效选项:>>");
-                            continue;
-                    }
-
-                    continue;
-                }
-                case 8:
-                {
-                    System.out.println("退出成功~~");
-                    break;
-                }
-                default:
-                    System.out.print("输入非法，请重新输入：\n");
-                    continue;
-            }
-            break;
-        }while(true);
-    }
-
-    public void search_menu()
-    {
-        System.out.println("************************************");
-        System.out.println("********* 1   按 id 查找 ***********");
-        System.out.println("********* 2   按name查找 ***********");
-        System.out.println("********* 3   按状态查找 ***********");
-        System.out.println("********* 4   按热度查找 ***********");
-        System.out.println("************************************");
-    }
-
-    public void sort_menu()
-    {
-        System.out.println("************************************");
-        System.out.println("********* 1   按 id 排序 ***********");
-        System.out.println("********* 2   按name排序 ***********");
-        System.out.println("********* 3   按热度排序 ***********");
-        System.out.println("********* 4   按利润排序 ***********");
-        System.out.println("************************************");
-    }
-
     // 初始化方法  --  实例化三张dvd,放入容器（dvds）
     public void init() throws ParseException {
         Dvd dvd1 = new Dvd();
         Dvd dvd2 = new Dvd();
         Dvd dvd3 = new Dvd();
 
-        dvd1.id = UUID.randomUUID().toString().replace("-","").substring(0,6);
-        dvd1.name = "西游记";
-        dvd1.cost = 45.5;
-        dvd1.status = DvdStatus.INSTORE;
-        dvd1.sum_times = 3;
-        dvd1.borrow_date = "2023-03-31 06:12";
-        dvd1.return_date = "2023-04-02 12:21";
-        dvd1.profit = cal_Cost(dvd1.borrow_date,dvd1.return_date)*dvd1.cost;
+        dvd1.setId(UUID.randomUUID().toString().replace("-","").substring(0,6));
+        dvd1.setName("西游记");
+        dvd1.setCost(45.5);
+        dvd1.setStatus(DvdStatus.INSTORE);
+        dvd1.setSum_times(3);
+        dvd1.setBorrow_date("2023-03-31 06:12");
+        dvd1.setReturn_date("2023-04-02 12:21");
+        dvd1.setProfit(cal_Cost(dvd1.getBorrow_date(),dvd1.getReturn_date())*dvd1.getCost());
 
         // --upline(dvd1) 可达到一样的效果
         dvds[0] = dvd1;
 
-        dvd2.id = UUID.randomUUID().toString().replace("-","").substring(0,6);
-        dvd2.name = "水浒传";
-        dvd2.cost = 55.5;
-        dvd2.status = DvdStatus.INSTORE;
-        dvd2.sum_times = 1;
+        dvd2.setId(UUID.randomUUID().toString().replace("-","").substring(0,6));
+        dvd2.setName("水浒传");
+        dvd2.setCost(55.5);
+        dvd2.setStatus(DvdStatus.INSTORE);
+        dvd2.setSum_times(1);
         dvds[1] = dvd2;
 
-        dvd3.id = UUID.randomUUID().toString().replace("-","").substring(0,6);
-        dvd3.name = "三国演义";
-        dvd3.cost = 65.5;
-        dvd3.status = DvdStatus.INSTORE;
-        dvd3.sum_times = 2;
+        dvd3.setId(UUID.randomUUID().toString().replace("-","").substring(0,6));
+        dvd3.setName("三国演义");
+        dvd3.setCost(65.5);
+        dvd3.setStatus(DvdStatus.INSTORE);
+        dvd3.setSum_times(2);
         dvds[2] = dvd3;
-        dvd3.borrow_date = "2023-03-30 06:12";
-        dvd3.return_date = "2023-04-04 12:21";
-        dvd3.profit = cal_Cost(dvd3.borrow_date,dvd3.return_date)*dvd3.cost;
+        dvd3.setBorrow_date("2023-03-30 06:12");
+        dvd3.setReturn_date("2023-04-04 12:21");
+        dvd3.setProfit(cal_Cost(dvd3.getBorrow_date(),dvd3.getReturn_date())*dvd3.getCost());
     }
 
     // 上架
-    boolean upline(Dvd[] arr)
+    public boolean upline(Dvd[] arr)
     {
         input = new Scanner(System.in);
         Dvd dvd = new Dvd();
@@ -219,16 +59,16 @@ public class DvdManager {
         System.out.println("开始上架DVD信息>>:");
 
         //产生随机id
-        dvd.id = UUID.randomUUID().toString().replace("-","").substring(0,6);
+        dvd.setId(UUID.randomUUID().toString().replace("-","").substring(0,6));
 
         System.out.print("请输入片名：");
         //next()方法会过滤掉有效字符前面的无效字符,不能得到带空格的字符串
         //有扫描一整行的意思，它的结束符只能是Enter键，所以返回的是Enter键之前没有被读取的所有字符
-        dvd.name = input.nextLine();
-        dvd.status = DvdStatus.INSTORE;
+        dvd.setName(input.nextLine());
+        dvd.setStatus(DvdStatus.INSTORE);
 
         System.out.print("请输入日租金单价：");
-        dvd.cost = input.nextDouble();
+        dvd.setCost(input.nextDouble());
 
         int index = getFreePosition();
         arr[index] = dvd;
@@ -238,7 +78,7 @@ public class DvdManager {
     }
 
     // 下架
-    boolean downline(Dvd[] arr)
+    public boolean downline(Dvd[] arr)
     {
         System.out.print("请输入您需要下架的影片名:>>");
         input = new Scanner(System.in);
@@ -272,7 +112,7 @@ public class DvdManager {
     }
 
     // 出租
-    boolean borrowDvd(Dvd[] arr)
+    public boolean borrowDvd(Dvd[] arr)
     {
         System.out.println("出租:>>");
         input = new Scanner(System.in);
@@ -287,24 +127,33 @@ public class DvdManager {
         }
         else
         {
-            if(dvds[index].status == DvdStatus.OUTSTORE)
+            if(dvds[index].getStatus() == DvdStatus.OUTSTORE)
             {
-                System.out.println("抱歉，该影片正处于出租中~~");
+                System.out.print("抱歉，该影片正处于出租中~~是否预定?(Y or F)：");
+                String flag = input.nextLine();
+                if (flag.equals("Y"))
+                {
+                    dvds[index].setStatus(DvdStatus.SUBSCRIPT);
+                }
+                else
+                {
+                    System.out.println("取消成功~~");
+                }
             }
             else
             {
                 Date date = new Date();
                 //获取系统当前时间
-                arr[index].borrow_date = sdf.format(date);
-                arr[index].status = DvdStatus.OUTSTORE;
-                arr[index].sum_times++;
+                arr[index].setBorrow_date(sdf.format(date));
+                arr[index].setStatus(DvdStatus.OUTSTORE);
+                arr[index].setSum_times(arr[index].getSum_times()+1);
             }
         }
         return true;
     }
 
     // 归还
-    boolean returnDvd(Dvd[] arr) throws ParseException {
+    public boolean returnDvd(Dvd[] arr) throws ParseException {
         System.out.println("归还:>>");
         input = new Scanner(System.in);
 
@@ -312,13 +161,13 @@ public class DvdManager {
         String ret_name = input.nextLine();
 
         int index = getPositionByName(ret_name);
-        if(arr[index].status == DvdStatus.OUTSTORE)
+        if(arr[index].getStatus() == DvdStatus.OUTSTORE)
         {
             Date date = new Date();
 
-            arr[index].return_date = sdf.format(date);
-            arr[index].status = DvdStatus.INSTORE;
-            arr[index].profit += cal_Cost(arr[index].return_date,arr[index].borrow_date);
+            arr[index].setReturn_date(sdf.format(date));
+            arr[index].setStatus(DvdStatus.INSTORE);
+            arr[index].setProfit(arr[index].getProfit() + cal_Cost(arr[index].getBorrow_date(),arr[index].getReturn_date())*arr[index].getCost());
         }
         else
         {
@@ -330,7 +179,7 @@ public class DvdManager {
 
     // 查找 -- 重载各种参数的查找方法
     // 按id查找
-    Dvd searchById(Dvd[] arr)
+    public Dvd searchById(Dvd[] arr)
     {
         input = new Scanner(System.in);
 
@@ -340,9 +189,10 @@ public class DvdManager {
         int times = 0,i = 0;
         for (i = 0;i < arr.length && arr[i] != null;i++)
         {
-            if(arr[i].id.equals(search_id))
+            if(arr[i].getId().equals(search_id))
             {
-                System.out.println(" id\t\t|\tname\t|\tcost\t|\tborrow_data\t\t|\treturn_time\t|\tsum_times\t|\tstatus");
+                System.out.println("\n******************************************************搜索到的 DVD 信息********************************************************");
+                System.out.println(" Id\t\t|\tName\t|\tCost\t|\t\tBorrow_data\t\t|\t\tReturn_time \t\t|\tSum_times\t|\tStatus\t|\tProfit");
                 print_dvd(arr[i]);
                 times = 1;
             }
@@ -355,7 +205,7 @@ public class DvdManager {
     }
 
     // 按名称查找
-    Dvd searchByName(Dvd... arr)
+    public Dvd searchByName(Dvd... arr)
     {
         input = new Scanner(System.in);
 
@@ -365,9 +215,10 @@ public class DvdManager {
         int times = 0,i = 0;
         for (i = 0;i < arr.length && arr[i] != null;i++)
         {
-            if(arr[i].name.equals(search_name))
+            if(arr[i].getName().equals(search_name))
             {
-                System.out.println(" id\t\t|\tname\t|\tcost\t|\tborrow_data\t\t|\treturn_time\t|\tsum_times\t|\tstatus");
+                System.out.println("\n******************************************************搜索到的 DVD 信息********************************************************");
+                System.out.println(" Id\t\t|\tName\t|\tCost\t|\t\tBorrow_data\t\t|\t\tReturn_time \t\t|\tSum_times\t|\tStatus\t|\tProfit");
                 print_dvd(arr[i]);
                 System.out.println();
                 times = 1;
@@ -382,14 +233,15 @@ public class DvdManager {
     }
 
     // 按状态查找
-    Dvd search(DvdStatus status)
+    public Dvd search(DvdStatus status)
     {
         int times = 0;
-        System.out.println(" id\t\t|\tname\t|\tcost\t|\tborrow_data\t\t|\treturn_time\t|\tsum_times\t|\tstatus");
+        System.out.println("\n******************************************************搜索到的 DVD 信息********************************************************");
+        System.out.println(" Id\t\t|\tName\t|\tCost\t|\t\tBorrow_data\t\t|\t\tReturn_time \t\t|\tSum_times\t|\tStatus\t|\tProfit");
         int i;
         for(i = 0;i < dvds.length && dvds[i] != null;i++)
         {
-            if (dvds[i].status.code == status.code)
+            if (dvds[i].getStatus().getCode() == status.getCode())
             {
                 print_dvd(dvds[i]);
                 System.out.println("");
@@ -404,7 +256,7 @@ public class DvdManager {
     }
 
     // 按热度查找
-    Dvd searchByFire(Dvd[] arr)
+    public Dvd searchByFire(Dvd[] arr)
     {
         input = new Scanner(System.in);
 
@@ -412,10 +264,11 @@ public class DvdManager {
         int search_fire = input.nextInt();
 
         int times = 0,i = 0;
-        System.out.println(" id\t\t|\tname\t|\tcost\t|\tborrow_data\t\t|\treturn_time\t|\tsum_times\t|\tstatus");
+        System.out.println("\n******************************************************搜索到的 DVD 信息********************************************************");
+        System.out.println(" Id\t\t|\tName\t|\tCost\t|\t\tBorrow_data\t\t|\t\tReturn_time \t\t|\tSum_times\t|\tStatus\t|\tProfit");
         for(i = 0;i < arr.length && arr[i] != null;i++)
         {
-            if (arr[i].sum_times == search_fire)
+            if (arr[i].getSum_times() == search_fire)
             {
                 print_dvd(arr[i]);
                 System.out.println("");
@@ -435,7 +288,7 @@ public class DvdManager {
     {
         for (int i = 0;i < dvds.length && dvds[i] != null;i++)
         {
-            if (dvds[i].name.equals(name))
+            if (dvds[i].getName().equals(name))
             {
                 return i;
             }
@@ -467,34 +320,34 @@ public class DvdManager {
 
     // 计算最大边际利润
     //通过将利润与租出次数相除得出最大边际利润
-    void maxProfit()
+    public void maxProfit()
     {
         int i = 0;
         String max_pos_name = " ";
         for (i = 0;i < dvds.length && dvds[i] != null;i++)
         {
-            dvds[i].maxProfit = (double) (dvds[i].profit/dvds[i].sum_times);
+            dvds[i].setMaxProfit((double) (dvds[i].getProfit()/dvds[i].getSum_times()));
         }
 
         //找到最大边际利润
         for (i = 0;i < dvds.length && dvds[i] != null && dvds[i+1] != null;i++)
         {
-            if (dvds[i].maxProfit > dvds[i+1].maxProfit)
+            if (dvds[i].getMaxProfit() > dvds[i+1].getMaxProfit())
             {
-                max_pos_name = dvds[i].name;
+                max_pos_name = dvds[i].getName();
             }
             else
             {
-                max_pos_name = dvds[i+1].name;
+                max_pos_name = dvds[i+1].getName();
             }
         }
         i = getPositionByName(max_pos_name);
-        System.out.printf("最大边际利润的是影片：%s,最大边际利润为：%.3f",dvds[i].name,dvds[i].maxProfit);
+        System.out.printf("最大边际利润的是影片：%s,最大边际利润为：%.3f",dvds[i].getName(),dvds[i].getMaxProfit());
     }
 
 
     //排序
-    void sortById()
+    public void sortById()
     {
         int i = 0,j = 0,res = 0;
         int insert_index = 0;
@@ -517,7 +370,7 @@ public class DvdManager {
                 insert_index = i;
                 for (j = insert_index - 1;j >= 0 && dvds[j] != null && dvds[i] != null;j--)
                 {
-                    res = dvds[i].id.compareTo(dvds[j].id);
+                    res = dvds[i].getId().compareTo(dvds[j].getId());
                     if (res < 0)
                     {
                         Dvd dvd_tmp = new Dvd();
@@ -531,7 +384,7 @@ public class DvdManager {
         }
     }
 
-    void sortByName()
+    public void sortByName()
     {
         int i = 0,j = 0,res = 0;
         int min_index = 0;//记录最小值的下标
@@ -557,7 +410,7 @@ public class DvdManager {
                 {
                     for (j = 0;j < dvds.length && dvds[j] != null;j++)
                     {
-                        res = dvd.name.compareTo(dvds[j].name);
+                        res = dvd.getName().compareTo(dvds[j].getName());
                         if (res >0)
                         {
                             min_index = j;
@@ -575,7 +428,7 @@ public class DvdManager {
         }
     }
 
-    void sortByFire()
+    public void sortByFire()
     {
         int i = 0,j = 0,min_pos = 0;
         int index = getFreePosition();
@@ -600,7 +453,7 @@ public class DvdManager {
                   }
                   for (j = i + 1; j < dvds.length && dvds[j] != null; j++)
                   {
-                      if(dvd.sum_times < dvds[j].sum_times)
+                      if(dvd.getSum_times() < dvds[j].getSum_times())
                       {
                           //查找比原来的dvd更小的值
                           dvd = dvds[j];
@@ -618,7 +471,7 @@ public class DvdManager {
         }
     }
 
-    void sortByProfit()
+    public void sortByProfit()
     {
         int i = 0,j = 0,min_pos = 0;
         int index = getFreePosition();
@@ -639,7 +492,7 @@ public class DvdManager {
                 for(j = 0;j < dvds.length-i-1 && dvds[j] != null && dvds[j+1] != null;j++)
                 {
                     // 判断dvds[j] 和 dvds[j+1] 是否为空，不然会报空指针异常
-                    if (dvds[j].profit < dvds[j+1].profit)
+                    if (dvds[j].getProfit() < dvds[j+1].getProfit())
                     {
                         Dvd dvd = new Dvd();
                         dvd = dvds[j];
@@ -651,19 +504,19 @@ public class DvdManager {
         }
     }
 
-    void print_dvd(Dvd dvd)
+    public void print_dvd(Dvd dvd)
     {
-        System.out.printf("%-6s\t\t",dvd.id);
-        System.out.printf("%3s\t\t",dvd.name);
-        System.out.printf("%2.2f\t\t",dvd.cost);
-        System.out.printf("%18s\t\t",dvd.borrow_date);
-        System.out.printf("%18s\t\t",dvd.return_date);
-        System.out.printf("%8d\t\t\t",dvd.sum_times);
-        System.out.printf("%6s\t\t",dvd.status);
-        System.out.printf("%4.2f\t\t",dvd.profit);
+        System.out.printf("%-6s\t\t",dvd.getId());
+        System.out.printf("%3s\t\t",dvd.getName());
+        System.out.printf("%2.2f\t\t",dvd.getCost());
+        System.out.printf("%18s\t\t",dvd.getBorrow_date());
+        System.out.printf("%18s\t\t",dvd.getReturn_date());
+        System.out.printf("%8d\t\t\t",dvd.getSum_times());
+        System.out.printf("%6s\t\t",dvd.getStatus());
+        System.out.printf("%4.2f\t\t",dvd.getProfit());
     }
 
-    void print_dvdArray(Dvd[] arr) {
+    public void print_dvdArray(Dvd[] arr) {
         if (arr[0] == null)
         {
             System.out.println("当前无存档的影片信息！");
