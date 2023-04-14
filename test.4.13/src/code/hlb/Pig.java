@@ -11,6 +11,9 @@ public class Pig extends Animal{
 
     //方法重写  -- 子类中重新定义父类中已有的方法，方法名称、参数列表和返回类型都必须与父类中的方法相同，
     //             方法重构可以让子类修改父类的行为，从而实现多态
+    // 方法重写的注解是 -- @override
+    // 方法重载的注解是 -- @overload
+    @override
     void show(){
         System.out.println("子类重写的方法~");
     }
