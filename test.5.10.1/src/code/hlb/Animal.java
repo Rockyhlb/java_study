@@ -6,13 +6,14 @@ public abstract class Animal {
 }
 
 class Dog extends Animal{
+    @Override
     void eating(){
         System.out.println("dog is eating");
     }
 }
 
 class Cat extends Animal{
-
+    @Override
     void eating(){
         System.out.println("cat is eating");
     }
@@ -20,6 +21,7 @@ class Cat extends Animal{
 
 class Caw extends Animal{
 
+    @Override
     void eating(){
         System.out.println("caw is eating");
     }
