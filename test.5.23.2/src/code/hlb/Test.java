@@ -4,6 +4,9 @@ import java.util.Scanner;
 
 public class Test {
 
+    // 抽象工厂的实现 --> 定义一个接口，两个类继承接口，通过在main菜单当中选择不同的入口实例化不同类对象，
+    // 就可以实现在一个项目中实现两套代码方案
+
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
