@@ -1,11 +1,7 @@
-package code.hlb;
-
-import sun.plugin.javascript.navig.LinkArray;
+package com.hlb;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Set;
 
 public class ArrayListTest {
 
@@ -16,7 +12,7 @@ public class ArrayListTest {
 //        可以通过索引来访问元素。常见的List实现包括ArrayList和LinkedList。
 
         // 创建一个 arrayList 对象
-        ArrayList<String> arrayList = new ArrayList<String>();
+        ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<String> arrayList2 = new ArrayList<String>();
         // 添加元素到列表
         arrayList.add("hello");

@@ -1,4 +1,4 @@
-package code.hlb;
+package com.hlb;
 
 import java.util.HashMap;
 import java.util.Map;
