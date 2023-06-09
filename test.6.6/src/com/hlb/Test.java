@@ -48,9 +48,5 @@ public class Test {
         stack.push("cat");
         stack.push("dog");
 
-
-
-
-
     }
 }
