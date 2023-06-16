@@ -95,17 +95,20 @@ public class MysqlHelpFactory implements JdbcFactory{
                 ResultSet rs = pstm.executeQuery(query);
                 if(rs!=null){
                     System.out.println("学号" + "\t"+ " 姓名" + "\t" + "  性别" + "\t" + "年龄" + "\t" +"入校时间"+ "\t\t" + "   邮箱" + "\t");
-                }
-                while (rs.next()) {
-                    String id = rs.getString("id");
-                    String name = rs.getString("name");
-                    String sex = rs.getString("sex");
-                    int age = rs.getInt("age");
-                    // 此处getDate 和 getTime 返回不同的日期格式
-                    Date enter_time = rs.getDate("enter_time");
-                    String email = rs.getString("email");
+                    while (rs.next()) {
+                        String id = rs.getString("id");
+                        String name = rs.getString("name");
+                        String sex = rs.getString("sex");
+                        int age = rs.getInt("age");
+                        // 此处getDate 和 getTime 返回不同的日期格式
+                        Date enter_time = rs.getDate("enter_time");
+                        String email = rs.getString("email");
 
-                    System.out.println(id + "\t\t" + name + "\t   " + sex + " \t " + age + "\t\t" + enter_time + "\t  " + email);
+                        System.out.println(id + "\t\t" + name + "\t   " + sex + " \t " + age + "\t\t" + enter_time + "\t  " + email);
+                    }
+                }
+                else {
+                    System.out.println("数据库中无该学生信息...");
                 }
             }
             catch (SQLException e){
@@ -129,19 +132,25 @@ public class MysqlHelpFactory implements JdbcFactory{
                 pstm = conn.prepareStatement(query);
                 pstm.setString(1,id);
                 ResultSet rs = pstm.executeQuery();
-                System.out.println("学号" + "\t"+ " 姓名" + "\t" + "  性别" + "\t" + "年龄" + "\t" +"入校时间"+ "\t\t" + "   邮箱" + "\t");
-                while (rs.next()) {
-                    String select_id = rs.getString("id");
-                    String name = rs.getString("name");
-                    String sex = rs.getString("sex");
-                    int age = rs.getInt("age");
-                    // 此处getDate 和 getTime 返回不同的日期格式
-                    Date enter_time = rs.getDate("enter_time");
-                    String email = rs.getString("email");
+                if (rs != null){
+                    System.out.println("学号" + "\t"+ " 姓名" + "\t" + "  性别" + "\t" + "年龄" + "\t" +"入校时间"+ "\t\t" + "   邮箱" + "\t");
 
-                    System.out.println(select_id
-                            + "\t\t" + name + "\t   " + sex + " \t " + age + "\t\t" + enter_time + "\t  " + email);
-                    count++;
+                    while (rs.next()) {
+                        String select_id = rs.getString("id");
+                        String name = rs.getString("name");
+                        String sex = rs.getString("sex");
+                        int age = rs.getInt("age");
+                        // 此处getDate 和 getTime 返回不同的日期格式
+                        Date enter_time = rs.getDate("enter_time");
+                        String email = rs.getString("email");
+
+                        System.out.println(select_id
+                                + "\t\t" + name + "\t   " + sex + " \t " + age + "\t\t" + enter_time + "\t  " + email);
+                        count++;
+                    }
+                }
+                else {
+                    System.out.println("数据库中无该学生信息...");
                 }
             }
             catch (SQLException e){
