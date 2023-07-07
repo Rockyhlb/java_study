@@ -6,7 +6,7 @@ import com.zy.dao.GoodsDao;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class MysqlFactory implements JdbcFactory{
+public class GoodsHelpFactory implements JdbcFactory{
 
     Connection conn = null;
     PreparedStatement pstm = null;

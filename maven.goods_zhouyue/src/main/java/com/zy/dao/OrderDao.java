@@ -2,7 +2,7 @@ package com.zy.dao;
 
 import com.zy.entity.order_zhouyue;
 import com.zy.factory.JdbcFactory;
-import com.zy.factory.LinuxFactory;
+import com.zy.factory.OrderHelpFactory;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -69,8 +69,8 @@ public class OrderDao implements IDao{
             String id = sc.nextLine();
             int flag = 0;  // 接收ID查询到的数据数量
             if (id!=null){
-                LinuxFactory LinuxFactory = (LinuxFactory)jdbcFactory;
-                flag = LinuxFactory.executeQuery("select * from order_zhouyue  where id = ?",id);
+                OrderHelpFactory OrderHelpFactory = (OrderHelpFactory)jdbcFactory;
+                flag = OrderHelpFactory.executeQuery("select * from order_zhouyue  where id = ?",id);
                 order_zhouyue.setGoods_id(id);
             }
 
@@ -122,8 +122,8 @@ public class OrderDao implements IDao{
             if (id!=null){
                 order_zhouyue.setGoods_id(id);
                 // 向下转型
-                LinuxFactory LinuxFactory = (LinuxFactory)jdbcFactory;
-                flag = LinuxFactory.executeQuery("select * from order_zhouyue where id = ?",id);
+                OrderHelpFactory OrderHelpFactory = (OrderHelpFactory)jdbcFactory;
+                flag = OrderHelpFactory.executeQuery("select * from order_zhouyue where id = ?",id);
             }
             if (0 != flag)
             {

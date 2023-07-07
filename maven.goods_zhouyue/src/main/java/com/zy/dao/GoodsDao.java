@@ -2,7 +2,7 @@ package com.zy.dao;
 
 import com.zy.entity.goods_zhouyue;
 import com.zy.factory.JdbcFactory;
-import com.zy.factory.MysqlFactory;
+import com.zy.factory.GoodsHelpFactory;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -69,8 +69,8 @@ public class GoodsDao implements IDao {
             String id = sc.nextLine();
             int flag = 0;  // 接收ID查询到的数据数量
             if (id!=null){
-                MysqlFactory mysqlFactory = (MysqlFactory)jdbcFactory;
-                flag = mysqlFactory.executeQuery("select * from goods_zhouyue  where id = ?",id);
+                GoodsHelpFactory goodsHelpFactory = (GoodsHelpFactory)jdbcFactory;
+                flag = goodsHelpFactory.executeQuery("select * from goods_zhouyue  where id = ?",id);
                 goods_zhouyue.setGoods_id(id);
             }
 
@@ -122,8 +122,8 @@ public class GoodsDao implements IDao {
             if (id!=null){
                 goods_zhouyue.setGoods_id(id);
                 // 向下转型
-                MysqlFactory mysqlFactory = (MysqlFactory)jdbcFactory;
-                flag = mysqlFactory.executeQuery("select * from goods_zhouyue where id = ?",id);
+                GoodsHelpFactory goodsHelpFactory = (GoodsHelpFactory)jdbcFactory;
+                flag = goodsHelpFactory.executeQuery("select * from goods_zhouyue where id = ?",id);
             }
             if (0 != flag)
             {

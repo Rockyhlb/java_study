@@ -6,7 +6,7 @@ import com.zy.dao.OrderDao;
 import java.sql.*;
 import java.time.LocalDate;
 
-public class LinuxFactory implements JdbcFactory{
+public class OrderHelpFactory implements JdbcFactory{
 
     Connection conn = null;
     PreparedStatement pstm = null;
