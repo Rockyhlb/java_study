@@ -1,0 +1,112 @@
+*{
+    padding: 0px;
+    margin: 0px;
+}
+
+
+#wrapper{
+    width: 100%;
+    height: 100%;
+
+}
+
+#top{
+    width: 100%;
+    height: 100px;
+    background: black;
+    color: white;
+}
+
+#bottom{
+    width: 100%;
+    height: 556px;
+}
+
+#b_left{
+    width: 18%;
+    height: 556px;
+    background: gainsboro;
+    float: left;
+}
+
+#b_right{
+    width: 82%;
+    height: 556px;
+    background: beige;
+    float: left;
+}
+
+.font35{
+    color: goldenrod;
+    font-weight: bold;
+    font-size: 35px;
+}
+
+#logo{
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+}
+
+.specialfonts{
+    font-weight: bold;
+    font-style: italic;
+    text-decoration-line: underline;
+}
+
+/* 这里我们用两个元素选择器，，来做城一个组合选择器   ul  ol 无差别共享声明的样式   */
+ul,ol{
+    list-style: none;
+}
+/*  以空格为分隔符的组合选择器    后代选择器*/
+#top_nav_menu li{
+    float: left;
+    width: 120px;
+    margin-right: 15px;
+    background: white;
+    color: black;
+}
+
+.clearfloat{
+    clear: both;
+}
+
+#b_right dl{
+    float: left;
+    margin-right: 25px;
+}
+
+.productstyle{
+    color: goldenrod;
+    font-weight: bold;
+    font-size: 14px;
+    font-family: 微软雅黑;
+}
+
+a{
+    text-decoration-line: none;
+    font-weight: bold;
+}
+
+/*  开始编写 a 标签的伪类，定制其默认显示方式*/
+a:link{
+    color: orange;
+}
+/* 鼠标划上*/
+a:hover{
+    color: chocolate;
+}
+/*  激活： 鼠标左键按下未释放*/
+a:active{
+    color: red;
+}
+
+a:visited{
+    color: lightgray;
+}
+
+#top_nav_menu li:hover{
+    background: darkgray;
+    color: white;
+    cursor: pointer;
+}
