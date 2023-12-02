@@ -22,16 +22,22 @@ public class ProvincePartitioner extends Partitioner<Text, FlowBean> {
         //定义一个分区号变量partition,根据prePhone设置分区号
         int partition;
 
-        if("136".equals(prePhone)){
-            partition = 0;
-        }else if("137".equals(prePhone)){
-            partition = 1;
-        }else if("138".equals(prePhone)){
-            partition = 2;
-        }else if("139".equals(prePhone)){
-            partition = 3;
-        }else {
-            partition = 4;
+        switch (prePhone) {
+            case "136":
+                partition = 0;
+                break;
+            case "137":
+                partition = 1;
+                break;
+            case "138":
+                partition = 2;
+                break;
+            case "139":
+                partition = 3;
+                break;
+            default:
+                partition = 4;
+                break;
         }
 
         //最后返回分区号partition

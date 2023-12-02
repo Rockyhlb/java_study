@@ -16,13 +16,10 @@ public class FlowMapper extends Mapper<LongWritable, Text, Text, FlowBean> {
 
     @Override
     protected void map(LongWritable key, Text value, Context context) throws IOException, InterruptedException {
-
         //1 获取一行数据,转成字符串
         String line = value.toString();
-
         //2 切割数据
         String[] split = line.split(" ");
-
         //3 抓取我们需要的数据:手机号,上行流量,下行流量
         String phone = split[1];
         String up = split[split.length - 3];

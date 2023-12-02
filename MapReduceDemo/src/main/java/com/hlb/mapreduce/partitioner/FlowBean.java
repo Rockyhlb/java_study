@@ -19,7 +19,6 @@ import java.io.IOException;
  */
 //1 继承Writable接口
 public class FlowBean implements Writable {
-
     private long upFlow; //上行流量
     private long downFlow; //下行流量
     private long sumFlow; //总流量

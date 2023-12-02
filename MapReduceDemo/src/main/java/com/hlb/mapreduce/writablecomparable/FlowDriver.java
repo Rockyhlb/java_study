@@ -1,4 +1,4 @@
-package com.hlb.mapreduce.writable;
+package com.hlb.mapreduce.writablecomparable;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
@@ -8,14 +8,8 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import java.io.IOException;
 
-/**
- * @author: code_hlb
- * @date :  2023/11/10 16:29
- * @desc :  编写Driver驱动类
- */
 public class FlowDriver {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
         //1 获取job对象
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
@@ -27,17 +21,23 @@ public class FlowDriver {
         job.setMapperClass(FlowMapper.class);
         job.setReducerClass(FlowReducer.class);
 
-        //4 设置Map端输出KV类型
-        job.setMapOutputKeyClass(Text.class);
-        job.setMapOutputValueClass(FlowBean.class);
+        //4 设置Map端输出数据的KV类型
+        job.setMapOutputKeyClass(FlowBean.class);
+        job.setMapOutputValueClass(Text.class);
 
         //5 设置程序最终输出的KV类型
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(FlowBean.class);
 
-        //6 设置程序的输入输出路径
+        //8、搭配ProvincePartitioner2，设置自定义分区器完成 区内排序
+        // job.setPartitionerClass(ProvincePartitioner2.class);
+
+        //9、设置对应的ReduceTask的个数
+        // job.setNumReduceTasks(5);
+
+        //6 设置输入输出路径，不设置自定义分区则是全排序
         FileInputFormat.setInputPaths(job, new Path("/input/phone_data.txt"));
-        FileOutputFormat.setOutputPath(job, new Path("/output/flowOutput"));
+        FileOutputFormat.setOutputPath(job, new Path("/output/writableComparableOut"));
 
         //7 提交Job
         boolean b = job.waitForCompletion(true);

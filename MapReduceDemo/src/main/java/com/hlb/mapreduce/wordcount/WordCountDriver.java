@@ -15,9 +15,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
  * @desc :
  */
 public class WordCountDriver {
-
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
-
         // 1 获取配置信息以及获取job对象
         Configuration conf = new Configuration();
         Job job = Job.getInstance(conf);
@@ -44,5 +42,8 @@ public class WordCountDriver {
         // 7 提交job
         boolean result = job.waitForCompletion(true);
         System.exit(result ? 0 : 1);
+
+        // 指定需要使用combiner，以及用哪个类作为combiner的逻辑
+        // job.setCombinerClass(WordCountCombiner.class);
     }
 }

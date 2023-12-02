@@ -1,10 +1,5 @@
 package com.hlb.mapreduce.partitioner;
 
-/**
- * @author: code_hlb
- * @date :  2023/11/10 18:26
- * @desc :
- */
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.Text;
@@ -13,8 +8,12 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import java.io.IOException;
 
+/**
+ * @author: code_hlb
+ * @date :  2023/11/10 18:26
+ * @desc :
+ */
 public class FlowDriver {
-
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
 
         //1 获取job对象
@@ -39,7 +38,7 @@ public class FlowDriver {
         //8 指定自定义分区器
         job.setPartitionerClass(ProvincePartitioner.class);
 
-        //9 同时指定相应数量的ReduceTask
+        //9 根据自定义的分区器，指定相应数量的ReduceTask
         job.setNumReduceTasks(5);
 
         //6 设置输入输出路径
